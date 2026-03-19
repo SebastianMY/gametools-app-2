@@ -29,6 +29,7 @@ import { RootStackScreenProps } from '../../navigation/types';
 import { useWindowBreakpoints } from '../../styles/responsive';
 import { colors, elevation, spacing, typography } from '../../styles/theme';
 import { Game } from '../../types';
+import NewGameDialog from './NewGameDialog';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -46,6 +47,8 @@ export default function ScoreHomeScreen({ navigation }: Props): React.JSX.Elemen
 
   // Track which game is pending deletion (used to prevent double-taps)
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  // Controls visibility of the New Game dialog
+  const [showNewGameDialog, setShowNewGameDialog] = useState(false);
 
   // -------------------------------------------------------------------------
   // Handlers
@@ -60,10 +63,20 @@ export default function ScoreHomeScreen({ navigation }: Props): React.JSX.Elemen
   );
 
   const handleNewGame = useCallback(() => {
-    // Navigate to NewGameDialog — route registered by TASK-013.
-    // Using 'as never' because the route is added in a parallel task.
-    navigation.navigate('NewGameDialog' as never);
-  }, [navigation]);
+    setShowNewGameDialog(true);
+  }, []);
+
+  const handleNewGameDismiss = useCallback(() => {
+    setShowNewGameDialog(false);
+  }, []);
+
+  const handleGameCreated = useCallback(
+    (gameId: string) => {
+      setShowNewGameDialog(false);
+      navigation.navigate('ScoreGame', { gameId });
+    },
+    [navigation],
+  );
 
   const handleDeleteRequest = useCallback(
     (game: Game) => {
@@ -167,6 +180,13 @@ export default function ScoreHomeScreen({ navigation }: Props): React.JSX.Elemen
           />
         </View>
       </View>
+      {/* New Game dialog — rendered at the root of this screen so it covers
+          the full viewport; controlled via local state (ADR-8) */}
+      <NewGameDialog
+        visible={showNewGameDialog}
+        onDismiss={handleNewGameDismiss}
+        onGameCreated={handleGameCreated}
+      />
     </SafeAreaView>
   );
 }
