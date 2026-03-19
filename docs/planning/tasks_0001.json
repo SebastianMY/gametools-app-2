@@ -62,7 +62,9 @@
         "docs/requirements/spec_0001.md"
       ],
       "existing_files_to_modify": [],
-      "complexity": "S"
+      "complexity": "S",
+      "issue_number": 1,
+      "issue_url": "https://github.com/SebastianMY/gametools-app-2/issues/1"
     },
     {
       "id": "TASK-002",
@@ -99,7 +101,9 @@
         "docs/architecture/architecture_approved_0001.md"
       ],
       "existing_files_to_modify": [],
-      "complexity": "S"
+      "complexity": "S",
+      "issue_number": 2,
+      "issue_url": "https://github.com/SebastianMY/gametools-app-2/issues/2"
     },
     {
       "id": "TASK-003",
@@ -137,7 +141,9 @@
         "docs/architecture/architecture_approved_0001.md"
       ],
       "existing_files_to_modify": [],
-      "complexity": "S"
+      "complexity": "S",
+      "issue_number": 3,
+      "issue_url": "https://github.com/SebastianMY/gametools-app-2/issues/3"
     },
     {
       "id": "TASK-004",
@@ -172,7 +178,9 @@
       "existing_files_to_modify": [
         "src/types/Navigation.ts"
       ],
-      "complexity": "S"
+      "complexity": "S",
+      "issue_number": 4,
+      "issue_url": "https://github.com/SebastianMY/gametools-app-2/issues/4"
     },
     {
       "id": "TASK-005",
@@ -212,7 +220,9 @@
         "docs/architecture/architecture_approved_0001.md"
       ],
       "existing_files_to_modify": [],
-      "complexity": "S"
+      "complexity": "S",
+      "issue_number": 5,
+      "issue_url": "https://github.com/SebastianMY/gametools-app-2/issues/5"
     },
     {
       "id": "TASK-006",
@@ -252,7 +262,9 @@
         "docs/architecture/architecture_approved_0001.md"
       ],
       "existing_files_to_modify": [],
-      "complexity": "S"
+      "complexity": "S",
+      "issue_number": 6,
+      "issue_url": "https://github.com/SebastianMY/gametools-app-2/issues/6"
     },
     {
       "id": "TASK-007",
@@ -294,7 +306,9 @@
       "existing_files_to_modify": [
         "src/App.tsx"
       ],
-      "complexity": "M"
+      "complexity": "M",
+      "issue_number": 7,
+      "issue_url": "https://github.com/SebastianMY/gametools-app-2/issues/7"
     },
     {
       "id": "TASK-008",
@@ -334,7 +348,9 @@
       "existing_files_to_modify": [
         "src/context/GameStateContext.tsx"
       ],
-      "complexity": "S"
+      "complexity": "S",
+      "issue_number": 8,
+      "issue_url": "https://github.com/SebastianMY/gametools-app-2/issues/8"
     },
     {
       "id": "TASK-009",
@@ -371,7 +387,9 @@
         "docs/architecture/architecture_approved_0001.md"
       ],
       "existing_files_to_modify": [],
-      "complexity": "S"
+      "complexity": "S",
+      "issue_number": 9,
+      "issue_url": "https://github.com/SebastianMY/gametools-app-2/issues/9"
     },
     {
       "id": "TASK-010",
@@ -413,7 +431,9 @@
         "docs/architecture/architecture_approved_0001.md"
       ],
       "existing_files_to_modify": [],
-      "complexity": "M"
+      "complexity": "M",
+      "issue_number": 10,
+      "issue_url": "https://github.com/SebastianMY/gametools-app-2/issues/10"
     },
     {
       "id": "TASK-011",
@@ -463,7 +483,9 @@
         "docs/requirements/spec_0001.md"
       ],
       "existing_files_to_modify": [],
-      "complexity": "M"
+      "complexity": "M",
+      "issue_number": 11,
+      "issue_url": "https://github.com/SebastianMY/gametools-app-2/issues/11"
     },
     {
       "id": "TASK-012",
@@ -508,7 +530,9 @@
         "docs/architecture/architecture_approved_0001.md"
       ],
       "existing_files_to_modify": [],
-      "complexity": "M"
+      "complexity": "M",
+      "issue_number": 12,
+      "issue_url": "https://github.com/SebastianMY/gametools-app-2/issues/12"
     },
     {
       "id": "TASK-013",
@@ -555,7 +579,9 @@
         "docs/architecture/architecture_approved_0001.md"
       ],
       "existing_files_to_modify": [],
-      "complexity": "M"
+      "complexity": "M",
+      "issue_number": 13,
+      "issue_url": "https://github.com/SebastianMY/gametools-app-2/issues/13"
     },
     {
       "id": "TASK-014",
@@ -602,7 +628,9 @@
       "existing_files_to_modify": [
         "src/screens/score/ScoreHomeScreen.tsx"
       ],
-      "complexity": "M"
+      "complexity": "M",
+      "issue_number": 14,
+      "issue_url": "https://github.com/SebastianMY/gametools-app-2/issues/14"
     },
     {
       "id": "TASK-015",
@@ -647,7 +675,9 @@
       "existing_files_to_modify": [
         "src/screens/score/ScoreHomeScreen.tsx"
       ],
-      "complexity": "S"
+      "complexity": "S",
+      "issue_number": 15,
+      "issue_url": "https://github.com/SebastianMY/gametools-app-2/issues/15"
     },
     {
       "id": "TASK-016",
@@ -693,7 +723,9 @@
         "docs/requirements/spec_0001.md"
       ],
       "existing_files_to_modify": [],
-      "complexity": "M"
+      "complexity": "M",
+      "issue_number": 16,
+      "issue_url": "https://github.com/SebastianMY/gametools-app-2/issues/16"
     },
     {
       "id": "TASK-017",
@@ -738,7 +770,9 @@
       "existing_files_to_modify": [
         "src/screens/lottery/LotteryScreen.tsx"
       ],
-      "complexity": "M"
+      "complexity": "M",
+      "issue_number": 17,
+      "issue_url": "https://github.com/SebastianMY/gametools-app-2/issues/17"
     },
     {
       "id": "TASK-018",
@@ -780,7 +814,9 @@
         "src/App.tsx",
         "src/context/GameStateContext.tsx"
       ],
-      "complexity": "S"
+      "complexity": "S",
+      "issue_number": 18,
+      "issue_url": "https://github.com/SebastianMY/gametools-app-2/issues/18"
     },
     {
       "id": "TASK-019",
@@ -851,7 +887,9 @@
         "src/components/common/TextInput.tsx",
         "src/styles/theme.ts"
       ],
-      "complexity": "L"
+      "complexity": "L",
+      "issue_number": 19,
+      "issue_url": "https://github.com/SebastianMY/gametools-app-2/issues/19"
     },
     {
       "id": "TASK-020",
@@ -898,7 +936,9 @@
       "existing_files_to_modify": [
         "package.json"
       ],
-      "complexity": "M"
+      "complexity": "M",
+      "issue_number": 20,
+      "issue_url": "https://github.com/SebastianMY/gametools-app-2/issues/20"
     },
     {
       "id": "TASK-021",
@@ -952,7 +992,9 @@
         "src/components/score/PlayerRow.tsx",
         "src/context/GameStateContext.tsx"
       ],
-      "complexity": "M"
+      "complexity": "M",
+      "issue_number": 21,
+      "issue_url": "https://github.com/SebastianMY/gametools-app-2/issues/21"
     },
     {
       "id": "TASK-022",
@@ -1001,7 +1043,9 @@
         "docs/architecture/architecture_approved_0001.md"
       ],
       "existing_files_to_modify": [],
-      "complexity": "S"
+      "complexity": "S",
+      "issue_number": 22,
+      "issue_url": "https://github.com/SebastianMY/gametools-app-2/issues/22"
     }
   ]
 }
