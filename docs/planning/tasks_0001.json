@@ -1,0 +1,1007 @@
+{
+  "project": "Game Companion Mobile App",
+  "total_tasks": 22,
+  "total_waves": 5,
+  "labels": [
+    "priority:critical",
+    "priority:high",
+    "priority:medium",
+    "wave:1",
+    "wave:2",
+    "wave:3",
+    "wave:4",
+    "wave:5",
+    "setup",
+    "feature",
+    "testing",
+    "integration",
+    "accessibility",
+    "performance",
+    "docs"
+  ],
+  "milestones": [
+    "Wave 1: Foundation",
+    "Wave 2: Core State & Utilities",
+    "Wave 3: Feature Development",
+    "Wave 4: Integration & Accessibility",
+    "Wave 5: Testing & Polish"
+  ],
+  "tasks": [
+    {
+      "id": "TASK-001",
+      "title": "Initialize Expo project with TypeScript, ESLint, Prettier",
+      "body": "## Description\nSet up a new Expo project with React Native 0.73+, TypeScript, and development tooling. Configure ESLint with React Native rules, Prettier for code formatting, and establish the base folder structure outlined in the architecture.\n\nCreate or update the following configuration files:\n- app.json: Expo configuration with iOS 14.0+ and Android 11.0+ targets\n- package.json: Dependencies for Expo SDK, React Navigation, AsyncStorage, Gesture Handler, TypeScript\n- tsconfig.json: Strict mode enabled, target ES2020\n- .eslintrc.json: React Native + React recommended rules\n- .prettierrc.json: Standard formatting (2-space indent, single quotes)\n- .gitignore: Standard Node.js/Expo ignores\n\n## Estimated Files\n- app.json\n- package.json\n- tsconfig.json\n- .eslintrc.json\n- .prettierrc.json\n- .gitignore\n- src/ (create folder structure)\n\n## Dependencies\nNone (Wave 1 start)\n\n## Parallelizable With\nTASK-002, TASK-003\n\n## Acceptance Criteria\n- [ ] npm install completes without errors or warnings\n- [ ] Running expo start launches the app successfully on Expo Go\n- [ ] ESLint and Prettier run without configuration errors\n- [ ] TypeScript compile check (tsc --noEmit) passes\n- [ ] Folder structure (src/, __tests__/, etc.) exists and is ready for files\n\n## Context Files\n- docs/architecture/architecture_approved_0001.md\n- docs/requirements/spec_0001.md\n\n## Existing Files to Modify\nNone\n\n## Complexity\nS",
+      "labels": [
+        "priority:critical",
+        "wave:1",
+        "setup"
+      ],
+      "priority": "critical",
+      "wave": 1,
+      "estimated_files": [
+        "app.json",
+        "package.json",
+        "tsconfig.json",
+        ".eslintrc.json",
+        ".prettierrc.json",
+        ".gitignore"
+      ],
+      "depends_on": [],
+      "can_parallelize_with": [
+        "TASK-002",
+        "TASK-003"
+      ],
+      "acceptance_criteria": [
+        "npm install completes without errors or warnings",
+        "Running expo start launches app successfully",
+        "ESLint and Prettier run without configuration errors",
+        "TypeScript compile check (tsc --noEmit) passes"
+      ],
+      "context_files": [
+        "docs/architecture/architecture_approved_0001.md",
+        "docs/requirements/spec_0001.md"
+      ],
+      "existing_files_to_modify": [],
+      "complexity": "S"
+    },
+    {
+      "id": "TASK-002",
+      "title": "Define TypeScript types for Game, Player, Touch, and Navigation",
+      "body": "## Description\nCreate TypeScript interface definitions for all core data types used across the application. These types are the single source of truth for data structures passed between components, services, and context.\n\nDefine the following types:\n\n**src/types/Game.ts:**\n```typescript\nexport interface Player {\n  id: string;  // UUID\n  name: string;  // 1-50 chars\n  score: number;  // -999999 to 999999\n}\n\nexport interface Game {\n  id: string;  // UUID\n  name?: string;  // Optional user-provided name\n  createdAt: number;  // Timestamp (milliseconds)\n  lastModified: number;  // Timestamp (milliseconds)\n  players: Player[];\n}\n```\n\n**src/types/Touch.ts:**\n```typescript\nexport interface Touch {\n  id: string;  // Unique touch identifier\n  x: number;  // X coordinate\n  y: number;  // Y coordinate\n  timestamp: number;  // Last update time\n  color: string;  // Assigned color for circle\n}\n```\n\n**src/types/Navigation.ts:**\n```typescript\nexport type RootStackParamList = {\n  Home: undefined;\n  Dice: undefined;\n  ScoreHome: undefined;\n  ScoreGame: { gameId: string };\n  Lottery: undefined;\n};\n```\n\n## Estimated Files\n- src/types/Game.ts\n- src/types/Player.ts\n- src/types/Touch.ts\n- src/types/Navigation.ts\n- src/types/index.ts (barrel export)\n\n## Dependencies\nBlocked by: TASK-001\n\n## Parallelizable With\nTASK-003\n\n## Acceptance Criteria\n- [ ] All interface definitions compile without TypeScript errors\n- [ ] Game.ts includes Player interface with id, name, score fields\n- [ ] Touch.ts includes Touch interface with id, x, y, timestamp, color fields\n- [ ] Navigation.ts includes RootStackParamList with all five routes\n- [ ] index.ts barrel export allows import from src/types\n\n## Context Files\n- docs/architecture/architecture_approved_0001.md\n- docs/requirements/spec_0001.md\n\n## Existing Files to Modify\nNone\n\n## Complexity\nS",
+      "labels": [
+        "priority:critical",
+        "wave:1",
+        "setup"
+      ],
+      "priority": "critical",
+      "wave": 1,
+      "estimated_files": [
+        "src/types/Game.ts",
+        "src/types/Player.ts",
+        "src/types/Touch.ts",
+        "src/types/Navigation.ts",
+        "src/types/index.ts"
+      ],
+      "depends_on": [
+        "TASK-001"
+      ],
+      "can_parallelize_with": [
+        "TASK-003"
+      ],
+      "acceptance_criteria": [
+        "All TypeScript interfaces compile without errors",
+        "Game interface has id, name, createdAt, lastModified, players fields",
+        "Player interface has id, name, score fields with correct types",
+        "Touch interface has id, x, y, timestamp, color fields",
+        "Navigation types include all five routes: Home, Dice, ScoreHome, ScoreGame, Lottery"
+      ],
+      "context_files": [
+        "docs/architecture/architecture_approved_0001.md"
+      ],
+      "existing_files_to_modify": [],
+      "complexity": "S"
+    },
+    {
+      "id": "TASK-003",
+      "title": "Create design system with theme, colors, spacing, and typography",
+      "body": "## Description\nEstablish a centralized design system (design tokens) that all screens and components use for consistent visual appearance. Implement responsive scaling utilities and WCAG AA compliant color palette.\n\n**src/styles/theme.ts:** Define color palette (primary, secondary, success, error, backgrounds, text) with WCAG AA contrast ratios. Define typography scale (h1, h2, body, caption). Define spacing scale (4, 8, 12, 16, 24, 32, etc.).\n\n**src/styles/responsive.ts:** Create useWindowDimensions wrapper to provide breakpoints (isSmallPhone: <360dp, isPhone: <600dp, isTablet: >=600dp). Export responsive utility functions for conditional font sizes and padding.\n\n**src/utils/colors.ts:** Define color palette used across app: primary colors, semantic colors (success, error, warning), Lottery circle colors (8 distinct colors meeting WCAG AA). Include contrast ratio validation utilities.\n\n**src/styles/globalStyles.ts:** Define reusable StyleSheet objects for common patterns (flexCenter, safeAreaContainer, cardStyle, buttonStyle). These are used by components.\n\n## Estimated Files\n- src/styles/theme.ts\n- src/styles/responsive.ts\n- src/styles/globalStyles.ts\n- src/utils/colors.ts\n- src/utils/accessibility.ts (accessibility utilities stub)\n\n## Dependencies\nBlocked by: TASK-001\n\n## Parallelizable With\nTASK-002\n\n## Acceptance Criteria\n- [ ] Theme exports colors object with primary, secondary, background, text, success, error keys\n- [ ] All text colors pass WCAG AA contrast check (4.5:1 for normal text) against background colors\n- [ ] Responsive utility provides breakpoints for phone (<600dp), tablet (>=600dp)\n- [ ] Lottery colors object exports 8 distinct colors, each passing WCAG AA\n- [ ] globalStyles exports StyleSheet with flexCenter, safeAreaContainer, cardStyle patterns\n- [ ] responsive.ts exports useResponsiveSizes hook returning { fontSize, padding, breakpoint }\n\n## Context Files\n- docs/architecture/architecture_approved_0001.md\n- docs/requirements/spec_0001.md\n\n## Existing Files to Modify\nNone\n\n## Complexity\nS",
+      "labels": [
+        "priority:critical",
+        "wave:1",
+        "setup"
+      ],
+      "priority": "critical",
+      "wave": 1,
+      "estimated_files": [
+        "src/styles/theme.ts",
+        "src/styles/responsive.ts",
+        "src/styles/globalStyles.ts",
+        "src/utils/colors.ts",
+        "src/utils/accessibility.ts"
+      ],
+      "depends_on": [
+        "TASK-001"
+      ],
+      "can_parallelize_with": [
+        "TASK-002"
+      ],
+      "acceptance_criteria": [
+        "Theme exports colors object with all required keys (primary, secondary, background, text, success, error)",
+        "All text/background color combinations pass WCAG AA contrast check (4.5:1)",
+        "Colors.ts exports 8 distinct Lottery colors, each WCAG AA compliant",
+        "Responsive utilities provide correct breakpoints for phone and tablet",
+        "globalStyles exports reusable StyleSheet patterns",
+        "useResponsiveSizes hook returns fontSize and padding based on screen width"
+      ],
+      "context_files": [
+        "docs/architecture/architecture_approved_0001.md"
+      ],
+      "existing_files_to_modify": [],
+      "complexity": "S"
+    },
+    {
+      "id": "TASK-004",
+      "title": "Set up React Navigation stack with RootNavigator",
+      "body": "## Description\nImplement React Navigation v6+ with a native stack navigator for the five main screens. Create the root navigator component and App.tsx that wraps the navigation with Context providers for state management.\n\n**src/navigation/RootNavigator.tsx:**\n- Create native stack navigator with five routes: Home, Dice, ScoreHome, ScoreGame (with gameId param), Lottery\n- Configure screen options (header styling, animations)\n- Set Home as initial route\n\n**src/App.tsx:**\n- Import RootNavigator\n- Set up React Context providers (will be populated by TASK-007 and TASK-008)\n- Wrap with NavigationContainer from @react-navigation/native\n- Configure navigation linking for deep linking (optional for v1 but architecture-ready)\n\n## Estimated Files\n- src/navigation/RootNavigator.tsx\n- src/navigation/types.ts (already in types, but include screen name union)\n- src/App.tsx\n\n## Dependencies\nBlocked by: TASK-001, TASK-002\n\n## Parallelizable With\nNone (modifies App.tsx)\n\n## Acceptance Criteria\n- [ ] RootNavigator exports a functional component using createNativeStackNavigator\n- [ ] Navigator includes five screens with correct route names and parameters\n- [ ] App.tsx wraps RootNavigator with NavigationContainer and Provider stubs\n- [ ] TypeScript compilation passes; RootStackParamList used for type safety\n- [ ] Navigation transitions work: tapping home buttons navigates to respective screens\n\n## Context Files\n- docs/architecture/architecture_approved_0001.md\n\n## Existing Files to Modify\n- src/types/Navigation.ts (reference in RootNavigator)\n\n## Complexity\nS",
+      "labels": [
+        "priority:critical",
+        "wave:2",
+        "setup"
+      ],
+      "priority": "critical",
+      "wave": 2,
+      "estimated_files": [
+        "src/navigation/RootNavigator.tsx",
+        "src/App.tsx"
+      ],
+      "depends_on": [
+        "TASK-001",
+        "TASK-002"
+      ],
+      "can_parallelize_with": [],
+      "acceptance_criteria": [
+        "RootNavigator uses createNativeStackNavigator with 5 screens",
+        "All routes typed correctly using RootStackParamList",
+        "ScoreGame route accepts gameId parameter",
+        "App.tsx wraps navigator with NavigationContainer",
+        "Navigation transitions between Home and all feature screens work correctly"
+      ],
+      "context_files": [
+        "docs/architecture/architecture_approved_0001.md"
+      ],
+      "existing_files_to_modify": [
+        "src/types/Navigation.ts"
+      ],
+      "complexity": "S"
+    },
+    {
+      "id": "TASK-005",
+      "title": "Implement AsyncStorage service layer (AsyncStorageService, GameRepository)",
+      "body": "## Description\nCreate a storage abstraction layer that encapsulates all AsyncStorage operations for games and session state. This decouples business logic from storage implementation, allowing future migration to SQLite without changing the context layer.\n\n**src/services/storage/AsyncStorageService.ts:**\nInterface for key-value operations:\n```typescript\nexport class AsyncStorageService {\n  static async setItem(key: string, value: string): Promise<void>\n  static async getItem(key: string): Promise<string | null>\n  static async removeItem(key: string): Promise<void>\n  static async clear(): Promise<void>  // For testing\n}\n```\n\n**src/services/storage/GameRepository.ts:**\nGame-specific repository:\n```typescript\nexport class GameRepository {\n  static async saveGames(games: Game[]): Promise<void>\n  static async loadGames(): Promise<Game[]>\n  static async saveLastGameId(gameId: string): Promise<void>\n  static async loadLastGameId(): Promise<string | null>\n  static async deleteLastGameId(): Promise<void>\n}\n```\n\nImplementation details:\n- Use @react-native-async-storage/async-storage package\n- Keys: @games (array), @lastActiveGameId (string)\n- JSON serialization/deserialization in repository\n- Error handling: return empty array on load error, log errors\n\n## Estimated Files\n- src/services/storage/AsyncStorageService.ts\n- src/services/storage/GameRepository.ts\n- src/services/index.ts (barrel export)\n\n## Dependencies\nBlocked by: TASK-001, TASK-002\n\n## Parallelizable With\nTASK-006, TASK-007, TASK-008\n\n## Acceptance Criteria\n- [ ] AsyncStorageService.setItem(key, value) persists string to device storage\n- [ ] AsyncStorageService.getItem(key) retrieves persisted value or null if not found\n- [ ] GameRepository.saveGames(games) JSON-serializes array and saves to @games key\n- [ ] GameRepository.loadGames() deserializes JSON and returns Game[] (empty if not found)\n- [ ] GameRepository.loadLastGameId() returns UUID string or null\n- [ ] All methods handle AsyncStorage errors gracefully (no unhandled rejections)\n\n## Context Files\n- docs/architecture/architecture_approved_0001.md\n\n## Existing Files to Modify\nNone\n\n## Complexity\nS",
+      "labels": [
+        "priority:critical",
+        "wave:2",
+        "setup"
+      ],
+      "priority": "critical",
+      "wave": 2,
+      "estimated_files": [
+        "src/services/storage/AsyncStorageService.ts",
+        "src/services/storage/GameRepository.ts",
+        "src/services/index.ts"
+      ],
+      "depends_on": [
+        "TASK-001",
+        "TASK-002"
+      ],
+      "can_parallelize_with": [
+        "TASK-006",
+        "TASK-007",
+        "TASK-008",
+        "TASK-009"
+      ],
+      "acceptance_criteria": [
+        "AsyncStorageService persists and retrieves string values correctly",
+        "GameRepository.saveGames serializes Game[] to JSON and saves atomically",
+        "GameRepository.loadGames deserializes and returns Game[] or [] if not found",
+        "GameRepository correctly handles and returns last game ID",
+        "All async operations handle errors without throwing unhandled rejections",
+        "Empty/missing data returns sensible defaults, not errors"
+      ],
+      "context_files": [
+        "docs/architecture/architecture_approved_0001.md"
+      ],
+      "existing_files_to_modify": [],
+      "complexity": "S"
+    },
+    {
+      "id": "TASK-006",
+      "title": "Implement Home screen with navigation to Dice, Score, Lottery",
+      "body": "## Description\nCreate the Home/main screen that serves as the entry point after app launch. Display three visual sections/buttons for Dice, Score, and Lottery features with icons and labels. Implement game table aesthetic (green felt background, elegant typography).\n\n**src/screens/HomeScreen.tsx:**\n- Use useNavigation hook to access navigation\n- Layout: Three prominent buttons in a column or grid (responsive)\n- Button styling: Large touch targets (48x48 dp minimum), clear labels\n- Visual design inspired by a game table (green felt background, appropriate colors from theme)\n- Accessibility: Each button has clear accessibilityLabel and accessibilityRole='button'\n\n## Estimated Files\n- src/screens/HomeScreen.tsx\n\n## Dependencies\nBlocked by: TASK-001, TASK-003, TASK-004\n\n## Parallelizable With\nTASK-007, TASK-008, TASK-009, TASK-010\n\n## Acceptance Criteria\n- [ ] HomeScreen renders three buttons: Dice, Score, Lottery\n- [ ] Tapping Dice button navigates to /dice route\n- [ ] Tapping Score button navigates to /score route\n- [ ] Tapping Lottery button navigates to /lottery route\n- [ ] Buttons use game table aesthetic (appropriate colors, spacing from theme)\n- [ ] Touch targets are at least 48×48 dp\n- [ ] Screen respects safe area on phones with notches/Dynamic Island\n\n## Context Files\n- docs/architecture/architecture_approved_0001.md\n- docs/requirements/spec_0001.md\n\n## Existing Files to Modify\nNone\n\n## Complexity\nS",
+      "labels": [
+        "priority:high",
+        "wave:2",
+        "feature"
+      ],
+      "priority": "high",
+      "wave": 2,
+      "estimated_files": [
+        "src/screens/HomeScreen.tsx"
+      ],
+      "depends_on": [
+        "TASK-001",
+        "TASK-003",
+        "TASK-004"
+      ],
+      "can_parallelize_with": [
+        "TASK-007",
+        "TASK-008",
+        "TASK-009",
+        "TASK-010"
+      ],
+      "acceptance_criteria": [
+        "HomeScreen renders three clearly labeled buttons for Dice, Score, and Lottery",
+        "Tapping Dice navigates to Dice screen",
+        "Tapping Score navigates to ScoreHome screen",
+        "Tapping Lottery navigates to Lottery screen",
+        "Buttons are at least 48×48 dp and responsive to screen size",
+        "Screen respects safe area (no content hidden under notch)",
+        "Visual design uses colors and spacing from theme/design system"
+      ],
+      "context_files": [
+        "docs/architecture/architecture_approved_0001.md"
+      ],
+      "existing_files_to_modify": [],
+      "complexity": "S"
+    },
+    {
+      "id": "TASK-007",
+      "title": "Implement GameStateContext with useGameState hook",
+      "body": "## Description\nCreate a React Context that manages the global game state: list of saved games and the current active game. Implement useGameState hook to expose state and action methods to components. This is the single source of truth for all game data.\n\n**src/context/GameStateContext.tsx:**\nContext with the following interface:\n```typescript\ninterface GameStateContextValue {\n  games: Game[]\n  currentGame: Game | null\n  loading: boolean\n  error: string | null\n  createGame: (playerNames: string[]) => Promise<void>\n  updateScore: (gameId: string, playerId: string, newScore: number) => Promise<void>\n  resumeGame: (gameId: string) => Promise<void>\n  deleteGame: (gameId: string) => Promise<void>\n  clearCurrentGame: () => void\n  loadLastSession: () => Promise<void>\n}\n```\n\n**src/context/hooks/useGameState.ts:**\n- Export hook to access context: useGameState() => GameStateContextValue\n\nImplementation:\n- createGame: Generates UUID, initializes players at 0 score, saves via GameRepository\n- updateScore: Finds player in currentGame, updates score, triggers persistence hook\n- resumeGame: Loads game from games array, sets as currentGame\n- deleteGame: Removes from games array, updates storage, clears currentGame if it matches\n- loadLastSession: Called on app init; loads last active game if it exists\n\n## Estimated Files\n- src/context/GameStateContext.tsx\n- src/context/hooks/useGameState.ts\n\n## Dependencies\nBlocked by: TASK-001, TASK-002, TASK-005\n\n## Parallelizable With\nTASK-008, TASK-009, TASK-010\n\n## Acceptance Criteria\n- [ ] GameStateContext provider accepts children and provides value to descendants\n- [ ] useGameState hook returns games array, currentGame, and action methods\n- [ ] createGame generates UUID, initializes all players to 0 score\n- [ ] updateScore modifies correct player's score in currentGame\n- [ ] deleteGame removes game from games array and clears currentGame if it was active\n- [ ] resumeGame loads game and sets it as currentGame\n- [ ] Context wraps calls to GameRepository for persistence\n\n## Context Files\n- docs/architecture/architecture_approved_0001.md\n\n## Existing Files to Modify\n- src/App.tsx (wrap with GameStateProvider)\n\n## Complexity\nM",
+      "labels": [
+        "priority:critical",
+        "wave:2",
+        "setup"
+      ],
+      "priority": "critical",
+      "wave": 2,
+      "estimated_files": [
+        "src/context/GameStateContext.tsx",
+        "src/context/hooks/useGameState.ts"
+      ],
+      "depends_on": [
+        "TASK-001",
+        "TASK-002",
+        "TASK-005"
+      ],
+      "can_parallelize_with": [
+        "TASK-008",
+        "TASK-009",
+        "TASK-010"
+      ],
+      "acceptance_criteria": [
+        "GameStateContext exports provider component and context",
+        "useGameState hook returns all required state and action methods",
+        "createGame(playerNames) creates Game with UUID, timestamp, initialized players",
+        "updateScore(gameId, playerId, newScore) updates correct player in games array",
+        "resumeGame(gameId) loads game and sets as currentGame",
+        "deleteGame(gameId) removes game and clears currentGame if it was active",
+        "All actions trigger persistence via GameRepository"
+      ],
+      "context_files": [
+        "docs/architecture/architecture_approved_0001.md"
+      ],
+      "existing_files_to_modify": [
+        "src/App.tsx"
+      ],
+      "complexity": "M"
+    },
+    {
+      "id": "TASK-008",
+      "title": "Implement usePersistence hook for debounced AsyncStorage writes",
+      "body": "## Description\nCreate a custom hook that monitors GameStateContext state changes and automatically persists the games array to AsyncStorage with debouncing. This implements FR-S7 (automatic persistence after every score change) without excessive I/O.\n\n**src/context/hooks/usePersistence.ts:**\n```typescript\nexport function usePersistence(games: Game[], lastGameId: string | null, debounceMs: number = 500): void\n```\n\nBehavior:\n- Monitor games array changes\n- Debounce with 500ms default (configurable)\n- On debounce timeout, call GameRepository.saveGames(games)\n- On mount, load games and lastGameId from storage\n- Handle errors gracefully (log only, no UI errors)\n- Cancel pending timeout on unmount\n\nThis hook is used in GameStateContext to persist state changes automatically.\n\n## Estimated Files\n- src/context/hooks/usePersistence.ts\n\n## Dependencies\nBlocked by: TASK-001, TASK-005\n\n## Parallelizable With\nTASK-007, TASK-009, TASK-010\n\n## Acceptance Criteria\n- [ ] usePersistence takes games array and returns void\n- [ ] Hook uses useEffect to monitor games changes\n- [ ] Debouncing prevents multiple writes within 500ms window\n- [ ] Final write calls GameRepository.saveGames(games) with complete array\n- [ ] Hook cleans up timeout on unmount\n- [ ] No unhandled promise rejections if AsyncStorage fails\n- [ ] Loading games on mount is non-blocking (async effect)\n\n## Context Files\n- docs/architecture/architecture_approved_0001.md\n\n## Existing Files to Modify\n- src/context/GameStateContext.tsx (integrate this hook)\n\n## Complexity\nS",
+      "labels": [
+        "priority:critical",
+        "wave:2",
+        "setup"
+      ],
+      "priority": "critical",
+      "wave": 2,
+      "estimated_files": [
+        "src/context/hooks/usePersistence.ts"
+      ],
+      "depends_on": [
+        "TASK-001",
+        "TASK-005"
+      ],
+      "can_parallelize_with": [
+        "TASK-007",
+        "TASK-009",
+        "TASK-010"
+      ],
+      "acceptance_criteria": [
+        "usePersistence accepts games array and debounceMs parameter",
+        "Hook monitors games array via useEffect",
+        "Debouncing prevents writes if games changes multiple times within 500ms",
+        "Final write calls GameRepository.saveGames(games) with full array",
+        "Timeout is cleaned up on unmount (no memory leaks)",
+        "AsyncStorage errors are logged but do not crash app",
+        "Initial load from AsyncStorage is non-blocking"
+      ],
+      "context_files": [
+        "docs/architecture/architecture_approved_0001.md"
+      ],
+      "existing_files_to_modify": [
+        "src/context/GameStateContext.tsx"
+      ],
+      "complexity": "S"
+    },
+    {
+      "id": "TASK-009",
+      "title": "Implement DiceRoller service and animation utilities",
+      "body": "## Description\nCreate a service that generates random dice rolls and utilities for dice rolling animations.\n\n**src/services/dice/DiceRoller.ts:**\n```typescript\nexport class DiceRoller {\n  static rollDice(count: number): number[] {\n    // Returns array of count random integers from 1-6\n  }\n}\n```\n\n**src/utils/animations.ts:**\nExport reusable Animated configuration objects:\n```typescript\nexport const diceRollAnimation = {\n  spinValue: new Animated.Value(0),\n  spin: () => { /* spinning animation config */ }\n}\nexport const circleGrowAnimation = { /* for Lottery */ }\nexport const fadeOutAnimation = { /* for Lottery */ }\n```\n\n## Estimated Files\n- src/services/dice/DiceRoller.ts\n- src/utils/animations.ts\n\n## Dependencies\nBlocked by: TASK-001, TASK-002\n\n## Parallelizable With\nTASK-007, TASK-008, TASK-010\n\n## Acceptance Criteria\n- [ ] DiceRoller.rollDice(count) returns array of count values, each 1-6\n- [ ] Roll results are statistically random (no obvious patterns)\n- [ ] animations.ts exports Animated objects for dice, circle growth, fade\n- [ ] Animations are properly typed and compatible with React Native Animated API\n\n## Context Files\n- docs/architecture/architecture_approved_0001.md\n\n## Existing Files to Modify\nNone\n\n## Complexity\nS",
+      "labels": [
+        "priority:high",
+        "wave:2",
+        "setup"
+      ],
+      "priority": "high",
+      "wave": 2,
+      "estimated_files": [
+        "src/services/dice/DiceRoller.ts",
+        "src/utils/animations.ts"
+      ],
+      "depends_on": [
+        "TASK-001",
+        "TASK-002"
+      ],
+      "can_parallelize_with": [
+        "TASK-007",
+        "TASK-008",
+        "TASK-010"
+      ],
+      "acceptance_criteria": [
+        "DiceRoller.rollDice(count) returns array with count elements",
+        "Each element is an integer from 1 to 6",
+        "Roll results appear random (no obvious patterns)",
+        "animations.ts exports Animated values for dice spin, circle growth, fade",
+        "Animation configs are properly typed and usable with React Native Animated"
+      ],
+      "context_files": [
+        "docs/architecture/architecture_approved_0001.md"
+      ],
+      "existing_files_to_modify": [],
+      "complexity": "S"
+    },
+    {
+      "id": "TASK-010",
+      "title": "Create shared components (Button, Card, TextInput, ScreenContainer)",
+      "body": "## Description\nImplement reusable, accessible component library used across all screens. These components enforce consistent styling, touch targets, and accessibility labels.\n\n**src/components/common/Button.tsx:**\n- Props: onPress, label, variant ('primary'|'secondary'|'danger'), size ('small'|'medium'|'large'), disabled\n- Minimum 48×48 dp touch area\n- Uses theme colors\n- AccessibilityRole: 'button', accessibilityLabel\n- Active state feedback (opacity change)\n\n**src/components/common/TextInput.tsx:**\n- Props: value, onChangeText, placeholder, maxLength, keyboardType\n- Minimum 44×44 dp touch area\n- Visible focus state (border highlight)\n- AccessibilityRole: 'search' or 'none'\n\n**src/components/common/Card.tsx:**\n- Simple container with theme background, border radius, shadow\n- Props: children, onPress (optional for tappable cards)\n\n**src/components/common/ScreenContainer.tsx:**\n- Wraps screen content with safe area, consistent padding\n- Props: children, noHorizontalPadding\n\n## Estimated Files\n- src/components/common/Button.tsx\n- src/components/common/TextInput.tsx\n- src/components/common/Card.tsx\n- src/components/common/ScreenContainer.tsx\n- src/components/common/index.ts (barrel export)\n\n## Dependencies\nBlocked by: TASK-001, TASK-003\n\n## Parallelizable With\nTASK-007, TASK-008, TASK-009\n\n## Acceptance Criteria\n- [ ] Button component has minimum 48×48 dp touch area\n- [ ] Button has active state visual feedback (opacity/color change)\n- [ ] TextInput has minimum 44×44 dp touch area and visible focus state\n- [ ] All components use colors from theme\n- [ ] All interactive components have accessibilityLabel and accessibilityRole\n- [ ] ScreenContainer respects safe area (notch, Dynamic Island)\n- [ ] Components render correctly in both portrait and landscape\n\n## Context Files\n- docs/architecture/architecture_approved_0001.md\n\n## Existing Files to Modify\nNone\n\n## Complexity\nM",
+      "labels": [
+        "priority:high",
+        "wave:2",
+        "setup"
+      ],
+      "priority": "high",
+      "wave": 2,
+      "estimated_files": [
+        "src/components/common/Button.tsx",
+        "src/components/common/TextInput.tsx",
+        "src/components/common/Card.tsx",
+        "src/components/common/ScreenContainer.tsx",
+        "src/components/common/index.ts"
+      ],
+      "depends_on": [
+        "TASK-001",
+        "TASK-003"
+      ],
+      "can_parallelize_with": [
+        "TASK-007",
+        "TASK-008",
+        "TASK-009"
+      ],
+      "acceptance_criteria": [
+        "Button component has minimum 48×48 dp touch target size",
+        "Button provides active state feedback (color/opacity change)",
+        "TextInput has minimum 44×44 dp touch area and visible focus state",
+        "All components use colors from theme with correct contrast ratios",
+        "Interactive components include accessibilityLabel and accessibilityRole",
+        "ScreenContainer respects safe area padding",
+        "All components render correctly in portrait and landscape orientations"
+      ],
+      "context_files": [
+        "docs/architecture/architecture_approved_0001.md"
+      ],
+      "existing_files_to_modify": [],
+      "complexity": "M"
+    },
+    {
+      "id": "TASK-011",
+      "title": "Implement Dice screen, components, and rolling logic",
+      "body": "## Description\nCreate the Dice feature screen with dice count selector, roll animation, and results display.\n\n**src/screens/dice/DiceScreen.tsx:**\n- Display dice count selector (1-6 dice) with increment/decrement buttons\n- \"Roll\" button that triggers DiceRoller.rollDice() and animation\n- Animated dice display showing each die result\n- Total sum display\n- \"Roll Again\" or \"Clear\" button to reset\n\n**src/components/dice/DiceCountSelector.tsx:**\n- Increment/decrement buttons for dice count (1-6)\n- Display current count\n\n**src/components/dice/DiceDisplay.tsx:**\n- Shows individual die results as numbers (1-6)\n- Layout: horizontal or grid depending on count\n\n**src/components/dice/RollAnimation.tsx:**\n- Reusable animated spinning effect using Animated API\n- Duration: 0.5-1.5 seconds\n- Shows all dice spinning, then settles on final values\n\nLogic:\n- Use DiceRoller.rollDice(count) to get results\n- Trigger RollAnimation on roll button tap\n- Display results after animation completes\n- State: diceCount, results, isAnimating\n\n## Estimated Files\n- src/screens/dice/DiceScreen.tsx\n- src/components/dice/DiceCountSelector.tsx\n- src/components/dice/DiceDisplay.tsx\n- src/components/dice/RollAnimation.tsx\n- src/components/dice/index.ts (barrel export)\n\n## Dependencies\nBlocked by: TASK-001, TASK-003, TASK-004, TASK-009, TASK-010\n\n## Parallelizable With\nTASK-012, TASK-013, TASK-014, TASK-015, TASK-016, TASK-017\n\n## Acceptance Criteria\n- [ ] DiceScreen renders dice count selector (buttons to select 1-6)\n- [ ] \"Roll\" button triggers animation and generates random results\n- [ ] Animation runs for 0.5-1.5 seconds with spinning effect\n- [ ] After animation, individual die results and sum are displayed\n- [ ] User can roll again without changing dice count\n- [ ] Touch targets (buttons, Roll) are minimum 48×48 dp\n- [ ] Screen respects safe area and landscape orientation\n\n## Context Files\n- docs/architecture/architecture_approved_0001.md\n- docs/requirements/spec_0001.md\n\n## Existing Files to Modify\nNone (RootNavigator references this screen)\n\n## Complexity\nM",
+      "labels": [
+        "priority:high",
+        "wave:3",
+        "feature"
+      ],
+      "priority": "high",
+      "wave": 3,
+      "estimated_files": [
+        "src/screens/dice/DiceScreen.tsx",
+        "src/components/dice/DiceCountSelector.tsx",
+        "src/components/dice/DiceDisplay.tsx",
+        "src/components/dice/RollAnimation.tsx",
+        "src/components/dice/index.ts"
+      ],
+      "depends_on": [
+        "TASK-001",
+        "TASK-003",
+        "TASK-004",
+        "TASK-009",
+        "TASK-010"
+      ],
+      "can_parallelize_with": [
+        "TASK-012",
+        "TASK-013",
+        "TASK-014",
+        "TASK-015",
+        "TASK-016",
+        "TASK-017"
+      ],
+      "acceptance_criteria": [
+        "DiceScreen displays dice count selector and Roll button",
+        "Selecting 1-6 dice updates the UI",
+        "Rolling generates random results for each die (1-6)",
+        "Roll animation plays for 0.5-1.5 seconds with spinning effect",
+        "Final results and sum are displayed after animation",
+        "User can roll again without changing count",
+        "All buttons are at least 48×48 dp",
+        "Screen works in portrait and landscape orientation"
+      ],
+      "context_files": [
+        "docs/architecture/architecture_approved_0001.md",
+        "docs/requirements/spec_0001.md"
+      ],
+      "existing_files_to_modify": [],
+      "complexity": "M"
+    },
+    {
+      "id": "TASK-012",
+      "title": "Implement Score home screen and game list display",
+      "body": "## Description\nCreate the Score feature home screen showing a list of all saved games with game metadata and a \"New Game\" button.\n\n**src/screens/score/ScoreHomeScreen.tsx:**\n- Display list of all games from GameStateContext.games\n- Each game shows: name (or auto-generated label), created date, player count\n- Tapping a game navigates to /score/:gameId\n- \"New Game\" button at top or bottom navigates to NewGameDialog\n- Long-press or swipe on game item triggers delete (TASK-015)\n- Empty state if no games exist: \"No games yet. Tap New Game to start.\"\n\n**src/components/score/GameListItem.tsx:**\n- Displays single game in list\n- Shows game.name || \"Game from [Date]\", created date, player count\n- Tappable; long-press for delete (or delete button/icon)\n- Responsive layout for phone and tablet\n\nLogic:\n- Load games from useGameState()\n- Handle game tap: resumeGame(gameId), navigate\n- Handle long-press/delete icon tap: trigger delete modal\n\n## Estimated Files\n- src/screens/score/ScoreHomeScreen.tsx\n- src/components/score/GameListItem.tsx\n\n## Dependencies\nBlocked by: TASK-001, TASK-003, TASK-004, TASK-007, TASK-010\n\n## Parallelizable With\nTASK-011, TASK-013, TASK-014, TASK-015, TASK-016, TASK-017\n\n## Acceptance Criteria\n- [ ] ScoreHomeScreen displays all saved games from GameStateContext\n- [ ] Each game item shows name (or auto-generated label), date created, player count\n- [ ] Tapping game navigates to ScoreGame screen with gameId parameter\n- [ ] \"New Game\" button navigates to NewGameDialog\n- [ ] Long-press on game item shows delete option or confirmation\n- [ ] Empty state message displayed when no games exist\n- [ ] Game list is responsive (works on phone and tablet)\n\n## Context Files\n- docs/architecture/architecture_approved_0001.md\n- docs/requirements/spec_0001.md\n\n## Existing Files to Modify\nNone\n\n## Complexity\nM",
+      "labels": [
+        "priority:high",
+        "wave:3",
+        "feature"
+      ],
+      "priority": "high",
+      "wave": 3,
+      "estimated_files": [
+        "src/screens/score/ScoreHomeScreen.tsx",
+        "src/components/score/GameListItem.tsx"
+      ],
+      "depends_on": [
+        "TASK-001",
+        "TASK-003",
+        "TASK-004",
+        "TASK-007",
+        "TASK-010"
+      ],
+      "can_parallelize_with": [
+        "TASK-011",
+        "TASK-013",
+        "TASK-014",
+        "TASK-015",
+        "TASK-016",
+        "TASK-017"
+      ],
+      "acceptance_criteria": [
+        "ScoreHomeScreen displays all games from useGameState().games",
+        "Each GameListItem shows game name (or auto-generated label), date, player count",
+        "Tapping game item navigates to ScoreGame with correct gameId",
+        "New Game button navigates to NewGameDialog screen",
+        "Long-press on game shows delete option (integrates with TASK-015)",
+        "Empty state message shown when games array is empty",
+        "List is responsive and works in portrait/landscape"
+      ],
+      "context_files": [
+        "docs/architecture/architecture_approved_0001.md"
+      ],
+      "existing_files_to_modify": [],
+      "complexity": "M"
+    },
+    {
+      "id": "TASK-013",
+      "title": "Implement Score game screen with player rows and score controls",
+      "body": "## Description\nCreate the active game screen where players track scores during a game session. Display player names, current scores, and increment/decrement buttons.\n\n**src/screens/score/ScoreGameScreen.tsx:**\n- Display game.name at top\n- List of all players with rows showing: name, current score, increment/decrement controls\n- Score increment buttons: +1, +5, +10 (and optional manual entry)\n- Score decrement buttons: −1, −5, −10\n- \"Back\" or \"Finish Game\" button returns to ScoreHome (currentGame cleared)\n- Pull-to-refresh or manual \"Load\" to sync with latest game state\n- Uses useGameState() to access currentGame and updateScore\n\n**src/components/score/PlayerRow.tsx:**\n- Displays single player: name, score, increment/decrement buttons\n- Buttons are large (48×48 dp) and clearly labeled\n- Score updates immediately on button tap\n- Accessible: labels for each button, clear text\n\n**src/components/score/ScoreIncrement.tsx:**\n- Reusable buttons for +1, +5, +10, −1, −5, −10\n- Takes onPress(delta: number) callback\n- Size and styling from theme\n\nLogic:\n- Load game on mount using route.params.gameId\n- Call updateScore() on increment/decrement button tap\n- Debounced persistence happens in GameStateContext via usePersistence\n\n## Estimated Files\n- src/screens/score/ScoreGameScreen.tsx\n- src/components/score/PlayerRow.tsx\n- src/components/score/ScoreIncrement.tsx\n\n## Dependencies\nBlocked by: TASK-001, TASK-003, TASK-004, TASK-007, TASK-010\n\n## Parallelizable With\nTASK-011, TASK-012, TASK-014, TASK-015, TASK-016, TASK-017\n\n## Acceptance Criteria\n- [ ] ScoreGameScreen displays game name and all players with current scores\n- [ ] Each player has +1, +5, +10 buttons (and −1, −5, −10 decrement buttons)\n- [ ] Tapping increment/decrement button updates player score immediately in UI\n- [ ] Score updates are automatically persisted (via GameStateContext)\n- [ ] Buttons are at least 48×48 dp\n- [ ] Screen handles 2-8 players (responsive layout)\n- [ ] Back button returns to ScoreHome\n- [ ] Landscape orientation displays players horizontally or with adjusted spacing\n\n## Context Files\n- docs/architecture/architecture_approved_0001.md\n- docs/requirements/spec_0001.md\n\n## Existing Files to Modify\nNone\n\n## Complexity\nM",
+      "labels": [
+        "priority:high",
+        "wave:3",
+        "feature"
+      ],
+      "priority": "high",
+      "wave": 3,
+      "estimated_files": [
+        "src/screens/score/ScoreGameScreen.tsx",
+        "src/components/score/PlayerRow.tsx",
+        "src/components/score/ScoreIncrement.tsx"
+      ],
+      "depends_on": [
+        "TASK-001",
+        "TASK-003",
+        "TASK-004",
+        "TASK-007",
+        "TASK-010"
+      ],
+      "can_parallelize_with": [
+        "TASK-011",
+        "TASK-012",
+        "TASK-014",
+        "TASK-015",
+        "TASK-016",
+        "TASK-017"
+      ],
+      "acceptance_criteria": [
+        "ScoreGameScreen displays loaded game with all players and scores",
+        "Each player row has +1, +5, +10 and −1, −5, −10 buttons",
+        "Tapping increment/decrement updates score immediately in UI",
+        "Updated scores are persisted automatically",
+        "All buttons are at least 48×48 dp",
+        "Layout handles 2-8 players responsively",
+        "Back button returns to ScoreHome",
+        "Screen works in portrait and landscape orientation"
+      ],
+      "context_files": [
+        "docs/architecture/architecture_approved_0001.md"
+      ],
+      "existing_files_to_modify": [],
+      "complexity": "M"
+    },
+    {
+      "id": "TASK-014",
+      "title": "Implement New Game dialog with player name input",
+      "body": "## Description\nCreate a modal dialog that prompts users to enter player names for a new game. Display input fields for 2-8 players with a \"Start Game\" button.\n\n**src/screens/score/NewGameDialog.tsx:**\n- Modal/dialog overlay with semi-transparent background\n- Title: \"New Game\"\n- Player count selector: buttons or picker to select 2-8 players\n- Input fields for each player name (placeholder: \"Player 1\", \"Player 2\", etc.)\n- \"Start Game\" button (disabled until at least 2 names filled in)\n- \"Cancel\" button\n- On \"Start Game\": Call createGame(playerNames), navigate to ScoreGame with gameId\n\nLogic:\n- State: playerCount, playerNames array\n- Validate: At least 2 names provided, names 1-50 chars\n- Call useGameState().createGame(playerNames)\n- Navigate to ScoreGame with returned game ID\n\n## Estimated Files\n- src/screens/score/NewGameDialog.tsx\n\n## Dependencies\nBlocked by: TASK-001, TASK-003, TASK-004, TASK-007, TASK-010\n\n## Parallelizable With\nTASK-011, TASK-012, TASK-013, TASK-015, TASK-016, TASK-017\n\n## Acceptance Criteria\n- [ ] NewGameDialog shows player count selector (2-8 players)\n- [ ] Shows text input for each player name\n- [ ] \"Start Game\" button calls createGame() with player names\n- [ ] On success, navigates to ScoreGame screen with new gameId\n- [ ] \"Cancel\" button closes dialog without creating game\n- [ ] Validates at least 2 names provided\n- [ ] Input fields are at least 44×44 dp touch area\n- [ ] Modal respects safe area\n\n## Context Files\n- docs/architecture/architecture_approved_0001.md\n\n## Existing Files to Modify\n- src/screens/score/ScoreHomeScreen.tsx (integrate NewGameDialog navigation)\n\n## Complexity\nM",
+      "labels": [
+        "priority:high",
+        "wave:3",
+        "feature"
+      ],
+      "priority": "high",
+      "wave": 3,
+      "estimated_files": [
+        "src/screens/score/NewGameDialog.tsx"
+      ],
+      "depends_on": [
+        "TASK-001",
+        "TASK-003",
+        "TASK-004",
+        "TASK-007",
+        "TASK-010"
+      ],
+      "can_parallelize_with": [
+        "TASK-011",
+        "TASK-012",
+        "TASK-013",
+        "TASK-015",
+        "TASK-016",
+        "TASK-017"
+      ],
+      "acceptance_criteria": [
+        "Dialog displays player count selector (2-8 players)",
+        "Shows text input for each selected player",
+        "Start Game button calls createGame(playerNames)",
+        "On success, navigates to ScoreGame with correct gameId",
+        "Cancel button closes dialog without creating game",
+        "Validates minimum 2 names provided before enabling Start",
+        "Input fields have minimum 44×44 dp touch area",
+        "Modal respects safe area and is responsive"
+      ],
+      "context_files": [
+        "docs/architecture/architecture_approved_0001.md"
+      ],
+      "existing_files_to_modify": [
+        "src/screens/score/ScoreHomeScreen.tsx"
+      ],
+      "complexity": "M"
+    },
+    {
+      "id": "TASK-015",
+      "title": "Implement game delete confirmation modal",
+      "body": "## Description\nCreate a confirmation dialog for deleting a game. Triggered by long-press on game item in ScoreHome or delete button in ScoreGame.\n\n**src/screens/score/GameDeleteModal.tsx:**\n- Modal with confirmation message: \"Delete game '[name]'? This cannot be undone.\"\n- \"Delete\" button (destructive style, red) and \"Cancel\" button\n- On \"Delete\": Call deleteGame(gameId), close modal, return to list\n- On \"Cancel\": Close modal\n\nLogic:\n- Takes gameId as prop/parameter\n- Calls useGameState().deleteGame(gameId)\n- Clears currentGame if deleted game was active\n\n## Estimated Files\n- src/screens/score/GameDeleteModal.tsx\n\n## Dependencies\nBlocked by: TASK-001, TASK-003, TASK-004, TASK-007, TASK-010\n\n## Parallelizable With\nTASK-011, TASK-012, TASK-013, TASK-014, TASK-016, TASK-017\n\n## Acceptance Criteria\n- [ ] Modal shows confirmation message with game name\n- [ ] \"Delete\" button calls deleteGame(gameId) and closes modal\n- [ ] \"Cancel\" button closes modal without deleting\n- [ ] After deletion, user is returned to previous screen (ScoreHome)\n- [ ] Delete button has destructive styling (red/warning color)\n- [ ] Modal respects safe area\n\n## Context Files\n- docs/architecture/architecture_approved_0001.md\n\n## Existing Files to Modify\n- src/screens/score/ScoreHomeScreen.tsx (trigger on long-press)\n- src/screens/score/ScoreGameScreen.tsx (optional: delete button in game)\n\n## Complexity\nS",
+      "labels": [
+        "priority:high",
+        "wave:3",
+        "feature"
+      ],
+      "priority": "high",
+      "wave": 3,
+      "estimated_files": [
+        "src/screens/score/GameDeleteModal.tsx"
+      ],
+      "depends_on": [
+        "TASK-001",
+        "TASK-003",
+        "TASK-004",
+        "TASK-007",
+        "TASK-010"
+      ],
+      "can_parallelize_with": [
+        "TASK-011",
+        "TASK-012",
+        "TASK-013",
+        "TASK-014",
+        "TASK-016",
+        "TASK-017"
+      ],
+      "acceptance_criteria": [
+        "Modal displays confirmation message with game name",
+        "Delete button calls deleteGame(gameId) and closes modal",
+        "Cancel button closes modal without deleting",
+        "After deletion, navigation returns to previous screen",
+        "Delete button uses destructive styling (red/warning color)",
+        "Modal respects safe area on all device types"
+      ],
+      "context_files": [
+        "docs/architecture/architecture_approved_0001.md"
+      ],
+      "existing_files_to_modify": [
+        "src/screens/score/ScoreHomeScreen.tsx"
+      ],
+      "complexity": "S"
+    },
+    {
+      "id": "TASK-016",
+      "title": "Implement Lottery screen with multi-touch tracking and gesture handler",
+      "body": "## Description\nCreate the Lottery feature screen with full-screen touch detection and colored circle display for each simultaneous touch.\n\n**src/screens/lottery/LotteryScreen.tsx:**\n- Full-screen touch-responsive surface\n- Uses React Native Gesture Handler for multi-touch tracking\n- Detects up to 8 simultaneous touches\n- On touch start/move/end: updates circles state\n- Manages 3-second countdown timer\n- On countdown completion: triggers LotteryEngine.selectWinner()\n\n**src/components/lottery/TouchSurface.tsx:**\n- Full-screen PanGestureHandler from Gesture Handler\n- Tracks multiple touch points\n- Calls callback with array of current touches\n- Enforces max 8 touches (ignore 9th finger)\n\n**src/components/lottery/TouchCircle.tsx:**\n- Visual circle representing a touch point\n- Props: x, y, color, isWinner, growing (for animation)\n- Uses Animated API for growth and fade effects\n\nLogic:\n- Track active touches in state\n- Monitor for 3 seconds of stability (no touch add/remove)\n- Reset countdown if touches change\n- Call selectWinner() after stability countdown completes\n\n## Estimated Files\n- src/screens/lottery/LotteryScreen.tsx\n- src/components/lottery/TouchSurface.tsx\n- src/components/lottery/TouchCircle.tsx\n\n## Dependencies\nBlocked by: TASK-001, TASK-003, TASK-004, React Native Gesture Handler\n\n## Parallelizable With\nTASK-011, TASK-012, TASK-013, TASK-014, TASK-015, TASK-017\n\n## Acceptance Criteria\n- [ ] LotteryScreen displays full-screen touch surface\n- [ ] Touching screen creates colored circles at touch points\n- [ ] Up to 8 simultaneous touches are tracked and displayed\n- [ ] 9th touch is ignored with visual feedback message\n- [ ] Circles remain visible as long as fingers are on screen\n- [ ] 3-second countdown begins after touches stabilize\n- [ ] Countdown resets if touches change (add/remove)\n- [ ] After 3 seconds, vibration occurs (TASK-017 integrates haptics)\n\n## Context Files\n- docs/architecture/architecture_approved_0001.md\n- docs/requirements/spec_0001.md\n\n## Existing Files to Modify\nNone\n\n## Complexity\nM",
+      "labels": [
+        "priority:high",
+        "wave:3",
+        "feature"
+      ],
+      "priority": "high",
+      "wave": 3,
+      "estimated_files": [
+        "src/screens/lottery/LotteryScreen.tsx",
+        "src/components/lottery/TouchSurface.tsx",
+        "src/components/lottery/TouchCircle.tsx"
+      ],
+      "depends_on": [
+        "TASK-001",
+        "TASK-003",
+        "TASK-004"
+      ],
+      "can_parallelize_with": [
+        "TASK-011",
+        "TASK-012",
+        "TASK-013",
+        "TASK-014",
+        "TASK-015",
+        "TASK-017"
+      ],
+      "acceptance_criteria": [
+        "LotteryScreen displays full-screen touch surface",
+        "Each touch creates a colored circle at contact point",
+        "Up to 8 simultaneous touches are tracked",
+        "9th touch is rejected with visual feedback",
+        "Circles persist while fingers are on screen",
+        "3-second countdown timer starts after touches stabilize",
+        "Countdown resets if touches change (add/remove)",
+        "Countdown completion triggers winner selection (TASK-017)"
+      ],
+      "context_files": [
+        "docs/architecture/architecture_approved_0001.md",
+        "docs/requirements/spec_0001.md"
+      ],
+      "existing_files_to_modify": [],
+      "complexity": "M"
+    },
+    {
+      "id": "TASK-017",
+      "title": "Implement Lottery winner selection logic and haptic feedback",
+      "body": "## Description\nImplement random winner selection from active touches and haptic/visual feedback on countdown completion.\n\n**src/services/lottery/LotteryEngine.ts:**\n```typescript\nexport class LotteryEngine {\n  static selectWinner(touches: Touch[]): Touch {\n    // Return random touch from array\n  }\n}\n```\n\n**src/components/lottery/WinnerAnnouncement.tsx:**\n- Full-screen overlay showing winner circle (enlarged, highlighted)\n- Message: \"[Color] wins!\" or \"Player in [Color] circle wins!\"\n- Fade-out animation for non-winning circles\n- \"Play Again\" button to reset and start new selection\n- Uses Animated API for circle growth and fade\n\nLogic in LotteryScreen:\n- After 3-second countdown completes:\n  - Vibrate device: Vibration.vibrate(100)\n  - Call selectWinner(activeTouches)\n  - Display WinnerAnnouncement component\n  - Show \"Play Again\" button\n  - On \"Play Again\": reset circles and countdown\n\n## Estimated Files\n- src/services/lottery/LotteryEngine.ts\n- src/components/lottery/WinnerAnnouncement.tsx\n\n## Dependencies\nBlocked by: TASK-001, TASK-002, TASK-003, TASK-016, Expo Vibration API\n\n## Parallelizable With\nTASK-011, TASK-012, TASK-013, TASK-014, TASK-015\n\n## Acceptance Criteria\n- [ ] LotteryEngine.selectWinner(touches) returns one random touch from array\n- [ ] WinnerAnnouncement displays winner circle with growth animation\n- [ ] Non-winning circles fade out\n- [ ] Device vibrates (100ms) when winner is announced\n- [ ] \"Play Again\" button resets UI and begins new countdown\n- [ ] Winner announcement is readable and accessible (text + color)\n- [ ] Animations run at 60 FPS without dropping frames\n\n## Context Files\n- docs/architecture/architecture_approved_0001.md\n- docs/requirements/spec_0001.md\n\n## Existing Files to Modify\n- src/screens/lottery/LotteryScreen.tsx (integrate winner selection and haptics)\n\n## Complexity\nM",
+      "labels": [
+        "priority:high",
+        "wave:3",
+        "feature"
+      ],
+      "priority": "high",
+      "wave": 3,
+      "estimated_files": [
+        "src/services/lottery/LotteryEngine.ts",
+        "src/components/lottery/WinnerAnnouncement.tsx"
+      ],
+      "depends_on": [
+        "TASK-001",
+        "TASK-002",
+        "TASK-003",
+        "TASK-016"
+      ],
+      "can_parallelize_with": [
+        "TASK-011",
+        "TASK-012",
+        "TASK-013",
+        "TASK-014",
+        "TASK-015"
+      ],
+      "acceptance_criteria": [
+        "LotteryEngine.selectWinner(touches) returns random touch",
+        "WinnerAnnouncement displays winner circle with growth animation",
+        "Non-winning circles fade out",
+        "Device vibrates (100ms) when winner announced",
+        "Play Again button resets circles and countdown",
+        "Winner indication is accessible (text + color, not color-only)",
+        "Animations run at 60 FPS consistently"
+      ],
+      "context_files": [
+        "docs/architecture/architecture_approved_0001.md"
+      ],
+      "existing_files_to_modify": [
+        "src/screens/lottery/LotteryScreen.tsx"
+      ],
+      "complexity": "M"
+    },
+    {
+      "id": "TASK-018",
+      "title": "Implement session restoration on app launch (last active game)",
+      "body": "## Description\nImplement automatic app startup logic to restore the last active game session per ADR-15. If the app is closed and reopened, users resume the game they were playing.\n\n**src/services/storage/SessionManager.ts:**\n```typescript\nexport class SessionManager {\n  static async saveLastGameId(gameId: string): Promise<void>\n  static async getLastGameId(): Promise<string | null>\n  static async clearLastGameId(): Promise<void>\n}\n```\n\n**src/context/hooks/useSessionRestore.ts:**\n- Hook called on app initialization\n- Loads last game ID from storage\n- If ID exists and game is in games array, set as currentGame\n- If ID exists but game was deleted (not in array), show toast: \"Last game was deleted; here are your saved games\"\n- Navigate to ScoreGame or ScoreHome accordingly\n\nIntegration:\n- Call useSessionRestore() on app mount in App.tsx or context initialization\n- Update GameStateContext.resumeGame() to also call SessionManager.saveLastGameId()\n- If game is deleted while active, fall back to ScoreHome (ADR-15)\n\n## Estimated Files\n- src/services/storage/SessionManager.ts\n- src/context/hooks/useSessionRestore.ts\n- A toast/notification component (or use simple Alert)\n\n## Dependencies\nBlocked by: TASK-001, TASK-002, TASK-005, TASK-007\n\n## Parallelizable With\nTASK-019\n\n## Acceptance Criteria\n- [ ] On app launch, useSessionRestore() loads last game ID from storage\n- [ ] If game exists in games array, it is loaded as currentGame\n- [ ] Navigation automatically opens ScoreGame with last game on startup\n- [ ] If game was deleted, app falls back to ScoreHome and shows toast message\n- [ ] Toast displays: \"Last game was deleted; here are your saved games\"\n- [ ] SessionManager.saveLastGameId() is called whenever resumeGame() is called\n- [ ] App startup time remains under 1 second (loading is non-blocking)\n\n## Context Files\n- docs/architecture/architecture_approved_0001.md\n\n## Existing Files to Modify\n- src/App.tsx (call useSessionRestore on mount)\n- src/context/GameStateContext.tsx (call SessionManager.saveLastGameId in resumeGame)\n\n## Complexity\nS",
+      "labels": [
+        "priority:high",
+        "wave:4",
+        "integration"
+      ],
+      "priority": "high",
+      "wave": 4,
+      "estimated_files": [
+        "src/services/storage/SessionManager.ts",
+        "src/context/hooks/useSessionRestore.ts",
+        "src/components/common/Toast.tsx"
+      ],
+      "depends_on": [
+        "TASK-001",
+        "TASK-002",
+        "TASK-005",
+        "TASK-007"
+      ],
+      "can_parallelize_with": [
+        "TASK-019"
+      ],
+      "acceptance_criteria": [
+        "useSessionRestore loads last game ID on app startup",
+        "If game exists in array, it becomes currentGame and opens ScoreGame",
+        "If game was deleted, app shows toast and navigates to ScoreHome",
+        "Toast message is clear: 'Last game was deleted; here are your saved games'",
+        "SessionManager.saveLastGameId is called after resumeGame",
+        "App startup is fast (<1 second including async load)"
+      ],
+      "context_files": [
+        "docs/architecture/architecture_approved_0001.md"
+      ],
+      "existing_files_to_modify": [
+        "src/App.tsx",
+        "src/context/GameStateContext.tsx"
+      ],
+      "complexity": "S"
+    },
+    {
+      "id": "TASK-019",
+      "title": "Accessibility audit and WCAG AA compliance fixes",
+      "body": "## Description\nPerform comprehensive accessibility review of all screens and components against WCAG AA standards. Fix any violations before release.\n\nAudit checklist:\n- **Color Contrast (WCAG AA 4.5:1):** All text vs. background colors meet minimum ratio\n- **Text Size:** Minimum 16sp for body text; support dynamic type scaling (text size settings)\n- **Touch Targets (NFR-A2):** All interactive elements are at least 48×48 dp\n- **Screen Reader Support (NFR-A5):** All interactive elements have accessibilityLabel, accessibilityRole, accessibilityHint\n- **Focus Management:** Visual focus indicator on all interactive elements\n- **Keyboard Navigation:** All features work via keyboard (if applicable to mobile context)\n- **Color Not Only:** Lottery circles are distinguishable by color + position or label, not color alone\n- **Motion:** Animations respect prefersReducedMotion setting\n- **Form Labels:** Text inputs have clear labels, not just placeholders\n\nTooling:\n- Use Accessible Colors tool to check contrast ratios\n- Test with iOS VoiceOver and Android TalkBack screen readers\n- Use Accessibility Inspector on iOS simulator\n- Manual testing on real devices\n\nFixes:\n- Update colors if contrast is below 4.5:1\n- Add accessibilityLabel to all buttons, inputs, images\n- Increase touch target sizes if below 48×48 dp\n- Add accessibilityHint to buttons with unclear purpose\n- Implement useColorScheme() for dark mode support (bonus)\n\n## Estimated Files\nModifications across all component and screen files:\n- src/screens/** (all)\n- src/components/** (all)\n- src/styles/theme.ts (verify contrast ratios)\n- src/utils/accessibility.ts (add contrast validation utilities)\n\n## Dependencies\nBlocked by: TASK-011, TASK-012, TASK-013, TASK-014, TASK-015, TASK-016, TASK-017\n\n## Parallelizable With\nNone (touches all files)\n\n## Acceptance Criteria\n- [ ] All text colors pass WCAG AA contrast check (4.5:1 normal, 3:1 large text)\n- [ ] All interactive elements are at least 48×48 dp touch area\n- [ ] All buttons, inputs, links have accessibilityLabel and accessibilityRole\n- [ ] VoiceOver on iOS can read and interact with all features\n- [ ] TalkBack on Android can read and interact with all features\n- [ ] Lottery circles are distinguishable without relying solely on color\n- [ ] Text respects system Dynamic Type settings (iOS) and sp scaling (Android)\n- [ ] Animations respect prefersReducedMotion setting\n\n## Context Files\n- docs/architecture/architecture_approved_0001.md\n- docs/requirements/spec_0001.md\n\n## Existing Files to Modify\n- All screen and component files (add accessibility attributes)\n- src/styles/theme.ts (verify/fix colors)\n\n## Complexity\nL",
+      "labels": [
+        "priority:critical",
+        "wave:4",
+        "accessibility"
+      ],
+      "priority": "critical",
+      "wave": 4,
+      "estimated_files": [
+        "src/screens/dice/DiceScreen.tsx",
+        "src/screens/score/ScoreHomeScreen.tsx",
+        "src/screens/score/ScoreGameScreen.tsx",
+        "src/screens/score/NewGameDialog.tsx",
+        "src/screens/score/GameDeleteModal.tsx",
+        "src/screens/lottery/LotteryScreen.tsx",
+        "src/components/dice/DiceDisplay.tsx",
+        "src/components/dice/RollAnimation.tsx",
+        "src/components/score/PlayerRow.tsx",
+        "src/components/score/ScoreIncrement.tsx",
+        "src/components/lottery/TouchCircle.tsx",
+        "src/components/lottery/WinnerAnnouncement.tsx",
+        "src/components/common/Button.tsx",
+        "src/components/common/TextInput.tsx",
+        "src/styles/theme.ts"
+      ],
+      "depends_on": [
+        "TASK-011",
+        "TASK-012",
+        "TASK-013",
+        "TASK-014",
+        "TASK-015",
+        "TASK-016",
+        "TASK-017"
+      ],
+      "can_parallelize_with": [],
+      "acceptance_criteria": [
+        "All text/background color combinations pass WCAG AA (4.5:1) contrast test",
+        "All interactive elements are at least 48×48 dp",
+        "All buttons, inputs have accessibilityLabel and accessibilityRole",
+        "VoiceOver (iOS) can read and interact with all features",
+        "TalkBack (Android) can read and interact with all features",
+        "Lottery circles are distinguishable without color alone",
+        "Text respects Dynamic Type (iOS) and sp scaling (Android)",
+        "Animations respect prefersReducedMotion system setting"
+      ],
+      "context_files": [
+        "docs/architecture/architecture_approved_0001.md",
+        "docs/requirements/spec_0001.md"
+      ],
+      "existing_files_to_modify": [
+        "src/screens/dice/DiceScreen.tsx",
+        "src/screens/score/ScoreHomeScreen.tsx",
+        "src/screens/score/ScoreGameScreen.tsx",
+        "src/screens/score/NewGameDialog.tsx",
+        "src/screens/score/GameDeleteModal.tsx",
+        "src/screens/lottery/LotteryScreen.tsx",
+        "src/components/dice/DiceDisplay.tsx",
+        "src/components/dice/RollAnimation.tsx",
+        "src/components/score/PlayerRow.tsx",
+        "src/components/score/ScoreIncrement.tsx",
+        "src/components/lottery/TouchCircle.tsx",
+        "src/components/lottery/WinnerAnnouncement.tsx",
+        "src/components/common/Button.tsx",
+        "src/components/common/TextInput.tsx",
+        "src/styles/theme.ts"
+      ],
+      "complexity": "L"
+    },
+    {
+      "id": "TASK-020",
+      "title": "Set up Jest testing framework and basic unit tests",
+      "body": "## Description\nConfigures Jest as the test runner for unit and integration tests. Create basic test suites for core logic (GameStateContext, storage service, DiceRoller).\n\n**Setup:**\n- Create jest.config.js with React Native presets\n- Add test scripts to package.json (npm test, npm run test:watch, npm run test:coverage)\n- Create __tests__/ directory structure mirroring src/\n\n**Test Files:**\n- __tests__/context/GameStateContext.test.ts\n  - Test createGame creates game with UUID, timestamp, initialized players\n  - Test updateScore updates player score\n  - Test deleteGame removes game from array\n  - Test resumeGame loads game\n  \n- __tests__/services/AsyncStorageService.test.ts\n  - Mock AsyncStorage\n  - Test setItem/getItem round-trip\n  - Test error handling\n  \n- __tests__/services/DiceRoller.test.ts\n  - Test rollDice returns correct length array\n  - Test all values 1-6\n  - Test randomness\n  \n- __tests__/services/LotteryEngine.test.ts\n  - Test selectWinner returns one of input touches\n  - Test it doesn't always return the same touch\n  \n- __tests__/components/Button.test.tsx (minimal component test)\n  - Test onPress callback is called\n  - Test label is rendered\n\nTarget: >80% code coverage for services and context\n\n## Estimated Files\n- jest.config.js\n- __tests__/context/GameStateContext.test.ts\n- __tests__/services/AsyncStorageService.test.ts\n- __tests__/services/DiceRoller.test.ts\n- __tests__/services/LotteryEngine.test.ts\n- __tests__/components/Button.test.tsx\n\n## Dependencies\nBlocked by: TASK-001, TASK-007, TASK-009, TASK-018\n\n## Parallelizable With\nTASK-021, TASK-022\n\n## Acceptance Criteria\n- [ ] Jest configuration is set up and npm test runs without errors\n- [ ] GameStateContext tests pass (createGame, updateScore, deleteGame, resumeGame)\n- [ ] AsyncStorageService tests pass with mocked AsyncStorage\n- [ ] DiceRoller tests confirm rollDice returns correct values\n- [ ] LotteryEngine tests confirm selectWinner randomness\n- [ ] Code coverage for services and context is >80%\n- [ ] Tests can be run in watch mode (npm run test:watch)\n\n## Context Files\n- docs/architecture/architecture_approved_0001.md\n\n## Existing Files to Modify\n- package.json (add test scripts)\n- tsconfig.json (adjust for testing)\n\n## Complexity\nM",
+      "labels": [
+        "priority:high",
+        "wave:5",
+        "testing"
+      ],
+      "priority": "high",
+      "wave": 5,
+      "estimated_files": [
+        "jest.config.js",
+        "__tests__/context/GameStateContext.test.ts",
+        "__tests__/services/AsyncStorageService.test.ts",
+        "__tests__/services/DiceRoller.test.ts",
+        "__tests__/services/LotteryEngine.test.ts",
+        "__tests__/components/Button.test.tsx"
+      ],
+      "depends_on": [
+        "TASK-001",
+        "TASK-007",
+        "TASK-009",
+        "TASK-018"
+      ],
+      "can_parallelize_with": [
+        "TASK-021",
+        "TASK-022"
+      ],
+      "acceptance_criteria": [
+        "Jest configuration allows npm test to run without errors",
+        "GameStateContext tests pass (all CRUD operations)",
+        "AsyncStorageService tests pass with mocked AsyncStorage",
+        "DiceRoller tests confirm correct random values (1-6)",
+        "LotteryEngine tests confirm random winner selection",
+        "Overall code coverage >80% for services and context",
+        "npm run test:watch works for development",
+        "CI pipeline can run tests on each commit"
+      ],
+      "context_files": [
+        "docs/architecture/architecture_approved_0001.md"
+      ],
+      "existing_files_to_modify": [
+        "package.json"
+      ],
+      "complexity": "M"
+    },
+    {
+      "id": "TASK-021",
+      "title": "Performance optimization and animations tuning",
+      "body": "## Description\nOptimize app performance to meet NFR-P1 (60 FPS animations) and NFR-P3 (game data loads <500ms). Identify and fix performance bottlenecks.\n\n**Optimizations:**\n- Component memoization: useMemo, React.memo for components that receive complex props\n- useCallback for event handlers to prevent unnecessary re-renders\n- Remove unused dependencies from useEffect\n- Test frame rate with React DevTools Profiler\n- Optimize animations: use React Native Animated (already used) and ensure interpolations are smooth\n- Lazy load screens (React.lazy + Suspense, optional for v1)\n- Minimize re-renders of PlayerRow on score updates\n- Profile AsyncStorage load time; add caching if needed\n\n**Testing:**\n- Use React DevTools Profiler to measure render times\n- Use Expo's built-in Performance Monitor\n- Test on low-end device simulator (Android 6, iPhone 6s equivalent)\n- Ensure dice animation runs at 60 FPS\n- Ensure circle animations run at 60 FPS\n- Measure game load time: target <500ms\n- Measure app startup time: target <2 seconds\n\n**Changes:**\n- Add React.memo to components that don't need frequent re-renders\n- Add useCallback to event handlers in context\n- Review and optimize animation interpolations\n- Consider FlatList virtualization for game list if >100 games\n\n## Estimated Files\n- src/components/** (memoization)\n- src/context/GameStateContext.tsx (useCallback)\n- src/screens/dice/DiceScreen.tsx (animation optimization)\n- src/screens/lottery/LotteryScreen.tsx (animation optimization)\n- src/components/score/PlayerRow.tsx (memoization)\n\n## Dependencies\nBlocked by: TASK-019 (needs all features built first)\n\n## Parallelizable With\nTASK-021, TASK-022\n\n## Acceptance Criteria\n- [ ] Dice rolling animation maintains 60 FPS on low-end device\n- [ ] Lottery circle animations maintain 60 FPS\n- [ ] Game data loads from AsyncStorage in <500ms\n- [ ] App startup (root to Home screen) completes in <2 seconds\n- [ ] PlayerRow re-renders only when its score changes (memoized)\n- [ ] No console warnings about unnecessary renders\n- [ ] React DevTools Profiler shows no excessive render times\n\n## Context Files\n- docs/architecture/architecture_approved_0001.md\n\n## Existing Files to Modify\n- All component and screen files (add memoization)\n- src/context/GameStateContext.tsx (add useCallback)\n\n## Complexity\nM",
+      "labels": [
+        "priority:high",
+        "wave:5",
+        "performance"
+      ],
+      "priority": "high",
+      "wave": 5,
+      "estimated_files": [
+        "src/components/dice/DiceDisplay.tsx",
+        "src/components/dice/RollAnimation.tsx",
+        "src/components/score/PlayerRow.tsx",
+        "src/components/score/ScoreIncrement.tsx",
+        "src/components/lottery/TouchCircle.tsx",
+        "src/components/lottery/WinnerAnnouncement.tsx",
+        "src/context/GameStateContext.tsx",
+        "src/screens/dice/DiceScreen.tsx",
+        "src/screens/lottery/LotteryScreen.tsx"
+      ],
+      "depends_on": [
+        "TASK-011",
+        "TASK-012",
+        "TASK-013",
+        "TASK-014",
+        "TASK-015",
+        "TASK-016",
+        "TASK-017"
+      ],
+      "can_parallelize_with": [
+        "TASK-020",
+        "TASK-022"
+      ],
+      "acceptance_criteria": [
+        "Dice rolling animation maintains 60 FPS on low-end device (Pixel 3 equivalent)",
+        "Lottery circle animations maintain 60 FPS",
+        "Game data loads from AsyncStorage in <500ms",
+        "App startup completes in <2 seconds",
+        "PlayerRow only re-renders when its score changes (memoized)",
+        "No console warnings about excessive renders",
+        "React DevTools Profiler shows average render time <16ms"
+      ],
+      "context_files": [
+        "docs/architecture/architecture_approved_0001.md"
+      ],
+      "existing_files_to_modify": [
+        "src/components/dice/DiceDisplay.tsx",
+        "src/components/score/PlayerRow.tsx",
+        "src/context/GameStateContext.tsx"
+      ],
+      "complexity": "M"
+    },
+    {
+      "id": "TASK-022",
+      "title": "Create documentation and release checklist",
+      "body": "## Description\nWrite comprehensive project documentation and finalize release checklist.\n\n**Documentation Files:**\n\n**README.md:**\n- Project overview\n- Features summary (Dice, Score, Lottery)\n- Tech stack\n- Installation and setup instructions\n- Running the app locally (expo start)\n- Building for iOS and Android (Expo EAS Build)\n- Contributing guidelines\n- License\n\n**docs/SETUP.md:**\n- Prerequisites (Node.js, npm, Expo CLI)\n- Step-by-step setup instructions\n- Troubleshooting common issues\n- How to run tests and linting\n\n**docs/ARCHITECTURE.md:**\n- Reference to architecture document\n- Folder structure explanation\n- Key design decisions (ADRs)\n- Data model overview\n- API/component interfaces\n\n**docs/DEPLOYMENT.md:**\n- Expo EAS Build configuration\n- App Store and Google Play submission steps\n- Version management\n- Release checklist\n\n**Release Checklist (docs/RELEASE_CHECKLIST.md):**\n- [ ] ESLint and Prettier pass\n- [ ] All Jest tests pass (>80% coverage)\n- [ ] Manual testing on iOS simulator and device\n- [ ] Manual testing on Android simulator and device\n- [ ] WCAG AA accessibility audit passed\n- [ ] Performance: 60 FPS animations, <500ms load\n- [ ] Backup game data\n- [ ] Versioning updated in app.json and package.json\n- [ ] Build with Expo EAS Build\n- [ ] App Store and Google Play metadata prepared\n- [ ] Privacy policy and terms of service ready\n\n## Estimated Files\n- README.md\n- docs/SETUP.md\n- docs/ARCHITECTURE.md\n- docs/DEPLOYMENT.md\n- docs/RELEASE_CHECKLIST.md\n- docs/CONTRIBUTING.md (optional)\n\n## Dependencies\nBlocked by: All feature tasks (TASK-011 through TASK-019)\n\n## Parallelizable With\nTASK-020, TASK-021\n\n## Acceptance Criteria\n- [ ] README.md provides clear project overview and setup instructions\n- [ ] SETUP.md includes step-by-step installation and troubleshooting\n- [ ] ARCHITECTURE.md references approved architecture and explains folder structure\n- [ ] DEPLOYMENT.md covers Expo EAS Build and app store submission\n- [ ] RELEASE_CHECKLIST.md is comprehensive and actionable\n- [ ] All documentation is current (references correct thread number 0001)\n- [ ] Code examples in docs are accurate and tested\n\n## Context Files\n- docs/architecture/architecture_approved_0001.md\n- docs/requirements/spec_0001.md\n\n## Existing Files to Modify\nNone\n\n## Complexity\nS",
+      "labels": [
+        "priority:medium",
+        "wave:5",
+        "docs"
+      ],
+      "priority": "medium",
+      "wave": 5,
+      "estimated_files": [
+        "README.md",
+        "docs/SETUP.md",
+        "docs/ARCHITECTURE.md",
+        "docs/DEPLOYMENT.md",
+        "docs/RELEASE_CHECKLIST.md",
+        "docs/CONTRIBUTING.md"
+      ],
+      "depends_on": [
+        "TASK-001",
+        "TASK-011",
+        "TASK-012",
+        "TASK-013",
+        "TASK-014",
+        "TASK-015",
+        "TASK-016",
+        "TASK-017",
+        "TASK-018"
+      ],
+      "can_parallelize_with": [
+        "TASK-020",
+        "TASK-021"
+      ],
+      "acceptance_criteria": [
+        "README.md clearly describes the app and provides setup instructions",
+        "SETUP.md includes step-by-step installation and troubleshooting",
+        "ARCHITECTURE.md explains design decisions and folder structure",
+        "DEPLOYMENT.md covers building and deploying to app stores",
+        "RELEASE_CHECKLIST.md lists all pre-release steps",
+        "All documentation references correct thread (0001)",
+        "Code examples in docs are accurate and can be followed"
+      ],
+      "context_files": [
+        "docs/architecture/architecture_approved_0001.md"
+      ],
+      "existing_files_to_modify": [],
+      "complexity": "S"
+    }
+  ]
+}
