@@ -30,6 +30,7 @@ import { RootStackScreenProps } from '../../navigation/types';
 import { useWindowBreakpoints } from '../../styles/responsive';
 import { colors, spacing, typography } from '../../styles/theme';
 import { Game } from '../../types';
+import GameDeleteModal from './GameDeleteModal';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -72,6 +73,8 @@ export default function ScoreGameScreen({ route, navigation }: Props): React.JSX
   // async updateScore call (prevents double-tap races).
   const [updating, setUpdating] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  // Controls visibility of the delete confirmation modal.
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   // -------------------------------------------------------------------------
   // Load game on mount (or if gameId changes)
@@ -143,6 +146,21 @@ export default function ScoreGameScreen({ route, navigation }: Props): React.JSX
     // removed from history.
     navigation.navigate('ScoreHome');
   }, [clearCurrentGame, navigation]);
+
+  const handleDeleteRequest = useCallback(() => {
+    setShowDeleteModal(true);
+  }, []);
+
+  const handleDeleteModalDismiss = useCallback(() => {
+    setShowDeleteModal(false);
+  }, []);
+
+  const handleGameDeleted = useCallback(() => {
+    setShowDeleteModal(false);
+    // clearCurrentGame is handled inside deleteGame (context), but we still
+    // navigate back so the user is returned to ScoreHome.
+    navigation.navigate('ScoreHome');
+  }, [navigation]);
 
   // -------------------------------------------------------------------------
   // Loading state
@@ -229,13 +247,30 @@ export default function ScoreGameScreen({ route, navigation }: Props): React.JSX
 
       {/* Footer */}
       <View style={styles.footer}>
+        <View style={styles.footerFinish}>
+          <Button
+            label="Finish Game"
+            onPress={handleFinish}
+            variant="secondary"
+            size="large"
+          />
+        </View>
         <Button
-          label="Finish Game"
-          onPress={handleFinish}
-          variant="secondary"
-          size="large"
+          label="Delete Game"
+          onPress={handleDeleteRequest}
+          variant="danger"
+          size="medium"
         />
       </View>
+
+      {/* Delete confirmation modal */}
+      <GameDeleteModal
+        visible={showDeleteModal}
+        gameId={gameId}
+        gameName={displayName}
+        onDismiss={handleDeleteModalDismiss}
+        onDeleted={handleGameDeleted}
+      />
     </ScreenContainer>
   );
 }
@@ -297,6 +332,11 @@ const styles = StyleSheet.create({
   footer: {
     paddingTop: spacing.sm,
     paddingBottom: spacing.xs,
+    flexDirection: 'row',
     alignItems: 'center',
+    gap: spacing.sm,
+  },
+  footerFinish: {
+    flex: 1,
   },
 });
