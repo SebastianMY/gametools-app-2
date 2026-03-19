@@ -13,7 +13,6 @@
 
 import React, { useCallback, useState } from 'react';
 import {
-  Alert,
   FlatList,
   Platform,
   SafeAreaView,
@@ -29,6 +28,7 @@ import { RootStackScreenProps } from '../../navigation/types';
 import { useWindowBreakpoints } from '../../styles/responsive';
 import { colors, elevation, spacing, typography } from '../../styles/theme';
 import { Game } from '../../types';
+import GameDeleteModal from './GameDeleteModal';
 import NewGameDialog from './NewGameDialog';
 
 // ---------------------------------------------------------------------------
@@ -42,11 +42,11 @@ type Props = RootStackScreenProps<'ScoreHome'>;
 // ---------------------------------------------------------------------------
 
 export default function ScoreHomeScreen({ navigation }: Props): React.JSX.Element {
-  const { games, resumeGame, deleteGame } = useGameState();
+  const { games, resumeGame } = useGameState();
   const { isTablet } = useWindowBreakpoints();
 
-  // Track which game is pending deletion (used to prevent double-taps)
-  const [deletingId, setDeletingId] = useState<string | null>(null);
+  // Controls which game is pending deletion (shown in the delete modal)
+  const [pendingDeleteGame, setPendingDeleteGame] = useState<Game | null>(null);
   // Controls visibility of the New Game dialog
   const [showNewGameDialog, setShowNewGameDialog] = useState(false);
 
@@ -80,35 +80,20 @@ export default function ScoreHomeScreen({ navigation }: Props): React.JSX.Elemen
 
   const handleDeleteRequest = useCallback(
     (game: Game) => {
-      if (deletingId === game.id) return; // Prevent concurrent deletes
-
-      const label = game.name && game.name.trim().length > 0
-        ? game.name.trim()
-        : `Game from ${new Date(game.createdAt).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          })}`;
-
-      Alert.alert(
-        'Delete Game',
-        `Are you sure you want to delete "${label}"? This action cannot be undone.`,
-        [
-          { text: 'Cancel', style: 'cancel' },
-          {
-            text: 'Delete',
-            style: 'destructive',
-            onPress: async () => {
-              setDeletingId(game.id);
-              await deleteGame(game.id);
-              setDeletingId(null);
-            },
-          },
-        ],
-      );
+      if (pendingDeleteGame !== null) return; // Prevent opening modal twice
+      setPendingDeleteGame(game);
     },
-    [deleteGame, deletingId],
+    [pendingDeleteGame],
   );
+
+  const handleDeleteModalDismiss = useCallback(() => {
+    setPendingDeleteGame(null);
+  }, []);
+
+  const handleGameDeleted = useCallback(() => {
+    setPendingDeleteGame(null);
+    // Remain on ScoreHome; the deleted game is removed from the list automatically.
+  }, []);
 
   // -------------------------------------------------------------------------
   // Render helpers
@@ -187,6 +172,24 @@ export default function ScoreHomeScreen({ navigation }: Props): React.JSX.Elemen
         onDismiss={handleNewGameDismiss}
         onGameCreated={handleGameCreated}
       />
+      {/* Delete confirmation modal — shown on long-press of a game item */}
+      {pendingDeleteGame !== null && (
+        <GameDeleteModal
+          visible
+          gameId={pendingDeleteGame.id}
+          gameName={
+            pendingDeleteGame.name && pendingDeleteGame.name.trim().length > 0
+              ? pendingDeleteGame.name.trim()
+              : `Game from ${new Date(pendingDeleteGame.createdAt).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}`
+          }
+          onDismiss={handleDeleteModalDismiss}
+          onDeleted={handleGameDeleted}
+        />
+      )}
     </SafeAreaView>
   );
 }
