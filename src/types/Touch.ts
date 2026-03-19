@@ -8,6 +8,8 @@ export interface Touch {
   x: number;
   /** Y coordinate on screen */
   y: number;
+  /** Unix timestamp (ms) of the last position update */
+  timestamp: number;
   /** Assigned display color (WCAG AA compliant) */
   color: string;
 }
