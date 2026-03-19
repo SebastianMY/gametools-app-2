@@ -1,0 +1,54 @@
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+package-lock.json
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# macOS
+.DS_Store
+*.DS_Store
+
+# VSCode
+.vscode/
+
+# IntelliJ IDEA
+.idea/
+
+# Native build artifacts
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Android build artifacts
+.gradle/
+gradle-wrapper.jar
+local.properties
+android/
+
+# iOS build artifacts
+ios/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Test coverage
+coverage/
+
+# Temp files
+*.log
+.tmp/

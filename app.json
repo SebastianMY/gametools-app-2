@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "Game Companion",
+    "slug": "game-companion",
+    "version": "1.0.0",
+    "orientation": "default",
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "deploymentTarget": "14.0",
+      "bundleIdentifier": "com.gamecompanion.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.gamecompanion.app",
+      "minSdkVersion": 30
+    },
+    "plugins": [
+      "react-native-gesture-handler"
+    ],
+    "experiments": {
+      "typedRoutes": false
+    }
+  }
+}
