@@ -32,7 +32,7 @@ import React, {
 import {
   StyleSheet,
   Text,
-  TouchableOpacity,
+  Vibration,
   View,
 } from 'react-native';
 
@@ -41,9 +41,10 @@ import {
   RawTouchPoint,
   TouchSurface,
 } from '../../components/lottery/TouchSurface';
+import { WinnerAnnouncement } from '../../components/lottery/WinnerAnnouncement';
 import { RootStackScreenProps } from '../../navigation/types';
 import { LotteryEngine } from '../../services/lottery/LotteryEngine';
-import { colors, spacing, typography } from '../../styles/theme';
+import { spacing, typography } from '../../styles/theme';
 import { Touch } from '../../types/Touch';
 import {
   LOTTERY_STABILITY_MS,
@@ -229,6 +230,8 @@ export default function LotteryScreen(_props: Props): React.JSX.Element {
     const timeoutId = setTimeout(() => {
       const touches = activeTouchesRef.current;
       if (touches.length >= MIN_PLAYERS) {
+        // Haptic feedback signals countdown completion (FR-L5, ADR-14).
+        Vibration.vibrate(100);
         setWinner(LotteryEngine.selectWinner(touches));
       }
     }, LOTTERY_STABILITY_MS);
@@ -321,42 +324,15 @@ export default function LotteryScreen(_props: Props): React.JSX.Element {
           </View>
         )}
 
-        {/* Winner announcement — shown inside surface for visual alignment. */}
-        {winner !== null && (
-          <View
-            style={styles.winnerOverlay}
-            pointerEvents="none"
-            accessibilityLiveRegion="assertive"
-          >
-            <Text
-              style={styles.winnerTitle}
-              accessibilityRole="header"
-            >
-              We have a winner!
-            </Text>
-            <Text
-              style={[styles.winnerColorLabel, { color: winner.color }]}
-              accessibilityLabel={`${winnerColorName} circle wins`}
-            >
-              {winnerColorName}
-            </Text>
-          </View>
-        )}
       </TouchSurface>
 
-      {/* Play Again button — rendered outside TouchSurface so it receives taps. */}
-      {winner !== null && (
-        <View style={styles.playAgainContainer}>
-          <TouchableOpacity
-            style={styles.playAgainButton}
-            onPress={handlePlayAgain}
-            accessibilityRole="button"
-            accessibilityLabel="Play Again"
-            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-          >
-            <Text style={styles.playAgainLabel}>Play Again</Text>
-          </TouchableOpacity>
-        </View>
+      {/* Winner announcement — rendered outside TouchSurface so it receives taps. */}
+      {winner !== null && winnerColorName !== null && (
+        <WinnerAnnouncement
+          winnerColor={winner.color}
+          winnerColorName={winnerColorName}
+          onPlayAgain={handlePlayAgain}
+        />
       )}
     </View>
   );
@@ -417,64 +393,4 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
 
-  // ---- Winner announcement ----
-
-  winnerOverlay: {
-    position: 'absolute',
-    top: spacing.xxl,
-    left: 0,
-    right: 0,
-    alignItems: 'center',
-    gap: spacing.xs,
-  },
-  winnerTitle: {
-    ...typography.h2,
-    color: '#FFFFFF',
-    textAlign: 'center',
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.sm,
-    backgroundColor: OVERLAY_BG,
-    borderRadius: 24,
-    overflow: 'hidden',
-  },
-  winnerColorLabel: {
-    fontSize: 40,
-    fontWeight: '800' as const,
-    textAlign: 'center',
-    // Drop shadow for legibility on any background.
-    textShadowColor: 'rgba(0, 0, 0, 0.6)',
-    textShadowOffset: { width: 0, height: 2 },
-    textShadowRadius: 4,
-  },
-
-  // ---- Play Again button ----
-
-  playAgainContainer: {
-    position: 'absolute',
-    bottom: spacing.xxxl,
-    left: 0,
-    right: 0,
-    alignItems: 'center',
-  },
-  playAgainButton: {
-    backgroundColor: colors.primary,
-    paddingHorizontal: spacing.xxl,
-    paddingVertical: spacing.md,
-    borderRadius: 32,
-    minWidth: 160,
-    minHeight: 48,
-    alignItems: 'center',
-    justifyContent: 'center',
-    // Shadow
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.4,
-    shadowRadius: 8,
-    elevation: 10,
-  },
-  playAgainLabel: {
-    ...typography.bodyMedium,
-    color: '#FFFFFF',
-    fontWeight: '700' as const,
-  },
 });
