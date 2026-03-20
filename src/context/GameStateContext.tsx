@@ -6,6 +6,7 @@ import React, {
 } from 'react';
 
 import { GameRepository } from '../services/storage/GameRepository';
+import { SessionManager } from '../services/storage/SessionManager';
 import { Game, Player } from '../types';
 import { usePersistence } from './hooks/usePersistence';
 
@@ -202,6 +203,8 @@ export function GameStateProvider({ children }: GameStateProviderProps): React.J
 
   /**
    * Loads a game from the games array and sets it as the current active game.
+   * Also persists the game ID via SessionManager so it can be restored on
+   * the next app launch (ADR-15).
    */
   const resumeGame = useCallback(
     async (gameId: string): Promise<void> => {
@@ -210,6 +213,7 @@ export function GameStateProvider({ children }: GameStateProviderProps): React.J
 
       try {
         await GameRepository.saveLastGameId(gameId);
+        await SessionManager.saveLastGameId(gameId);
         dispatch({ type: 'SET_CURRENT_GAME', game });
         dispatch({ type: 'SET_LAST_GAME_ID', id: gameId });
       } catch (error) {
